@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/user';
 import validateUser from '../utlis/validateUser';
+import transporter from './mailer';
 
 const router = express.Router();
 router.get('/me', async (req, res) => {
@@ -57,7 +58,17 @@ router.post('/', async (req, res) => {
       role: req.body.input.role,
     });
     const doc = await user.save();
+    const email = await transporter.sendMail(
+      {
+        to: doc.email,
+        from: 'ecommercetunisia1@gmail.com',
+        subject: 'signup succeded!',
+        html: '<h1>You successfully signed up!</h1>',
+
+      }
+    );
     res.send(doc);
+    console.log(email);
   } catch (e) {
     res.status(400).send(e);
   }
