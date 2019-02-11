@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
     const photo = new Photo({
       url: req.body.input.url,
       title: req.body.input.title,
-      idproduct: req.body.input.idproduct,
+      idproduit: req.body.input.idproduit,
       iduser: req.body.input.iduser,
     });
     const doc = await photo.save();
@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const body = _.pick(req.body.input, ['url', 'title', 'idproduct', 'iduser']);
+    const body = _.pick(req.body.input, ['url', 'title', 'idproduit', 'iduser']);
     const photo = await Photo.findOneAndUpdate(
       { _id: id },
       { $set: body },

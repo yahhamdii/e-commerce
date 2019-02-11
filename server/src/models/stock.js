@@ -1,10 +1,15 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const stockSchema = new mongoose.Schema({
-  idproduit: { type: String, required: true },
+  idproduit: {
+    type: Schema.Types.ObjectId,
+    ref: 'product',
+    required: true,
+  },
   stockuc: { type: Number, required: true },
 }, {
-  collection: 'product',
+  collection: 'stock',
   timestamps: true,
 });
 

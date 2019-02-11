@@ -28,8 +28,8 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const statusorder = new StatusOrder({
-      orderid: req.body.input.orderid,
-      statusid: req.body.input.statusid,
+      idorder: req.body.input.idorder,
+      idstatus: req.body.input.idstatus,
     });
     const statuso = await statusorder.save();
     res.send(statuso);

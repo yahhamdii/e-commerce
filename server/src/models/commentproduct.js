@@ -1,9 +1,19 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const commentproductSchema = new mongoose.Schema({
-  idproduct: { type: String, required: true },
-  iduser: { type: String, required: true },
-  commentaire: { type: String, required: true },
+  idproduit: {
+    type: Schema.Types.ObjectId,
+    ref: 'product',
+    required: true,
+  },
+  iduser: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  },
+  commentaire: { type: String },
+  note: { type: Number },
 }, {
   collection: 'commentproduct',
   timestamps: true,

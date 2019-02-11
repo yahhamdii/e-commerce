@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const delivery = new Delivery({
-      orderid: req.body.input.orderid,
+      idorder: req.body.input.idorder,
       tarifdelivery: req.body.input.tarifdelivery,
       deliverydate: req.body.input.deliverydate,
       deliverymode: req.body.input.deliverymode,
@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const body = _.pick(req.body.input, ['orderid', 'tarifdelivery', 'deliverydate', 'deliverymode']);
+    const body = _.pick(req.body.input, ['idorder', 'tarifdelivery', 'deliverydate', 'deliverymode']);
     const delivery = await Delivery.findOneAndUpdate(
       { _id: id },
       { $set: body },

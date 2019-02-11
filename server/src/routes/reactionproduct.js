@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const reactionproduct = new ReactionProduct({
-      idproduct: req.body.input.idproduct,
+      idproduit: req.body.input.idproduit,
       iduser: req.body.input.iduser,
       reaction: req.body.input.reaction,
     });
@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const body = _.pick(req.body.input, ['idproduct', 'iduser', 'reaction']);
+    const body = _.pick(req.body.input, ['idproduit', 'iduser', 'reaction']);
     const reactionproduct = await ReactionProduct.findOneAndUpdate(
       { _id: id },
       { $set: body },

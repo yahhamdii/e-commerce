@@ -28,9 +28,10 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const commentproduct = new CommentProduct({
-      idproduct: req.body.input.idproduct,
+      idproduit: req.body.input.idproduit,
       iduser: req.body.input.iduser,
       commentaire: req.body.input.commentaire,
+      note: req.body.input.note,
     });
     const commentp = await commentproduct.save();
     res.send(commentp);
@@ -42,7 +43,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const body = _.pick(req.body.input, ['idproduct', 'iduser', 'commentaire']);
+    const body = _.pick(req.body.input, ['idproduit', 'iduser', 'commentaire', 'note']);
     const commentproduct = await CommentProduct.findOneAndUpdate(
       { _id: id },
       { $set: body },

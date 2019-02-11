@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const deliverySchema = new mongoose.Schema({
-  orderid: { type: String, required: true },
-  tarifdelivery: { type: String, required: true },
+  idorder: {
+    type: Schema.Types.ObjectId,
+    ref: 'order',
+    required: true,
+  },
+  tarifdelivery: { type: Number, required: true },
   deliverydate: Date,
   deliverymode: String,
 }, {

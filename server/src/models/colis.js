@@ -1,7 +1,13 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
+
 const colisSchema = new mongoose.Schema({
-  idproduit: { type: String, required: true },
+  idproduit: {
+    type: Schema.Types.ObjectId,
+    ref: 'product',
+    required: true,
+  },
   unite: { type: String, required: true },
   quantity: Number,
 }, {

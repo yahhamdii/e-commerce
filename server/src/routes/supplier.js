@@ -1,6 +1,6 @@
 import express from 'express';
 import _ from 'lodash';
-import Supplier from '../models/carte';
+import Supplier from '../models/supplier';
 
 const router = express.Router();
 
@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
       firstname: req.body.input.firstname,
       lastname: req.body.input.lastname,
       email: req.body.input.email,
-      adresse: req.body.input.adresse,
+      adress: req.body.input.adress,
       phone: req.body.input.phone,
     });
     const suppliers = await supplier.save();

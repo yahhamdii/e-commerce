@@ -1,8 +1,17 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const orderstatusSchema = new mongoose.Schema({
-  orderid: { type: String, required: true },
-  statusid: { type: String, required: true },
+  idorder: {
+    type: Schema.Types.ObjectId,
+    ref: 'order',
+    required: true,
+  },
+  idstatus: {
+    type: Schema.Types.ObjectId,
+    ref: 'status',
+    required: true,
+  },
 }, {
   collection: 'orderstatus',
   timestamps: true,

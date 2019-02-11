@@ -48,16 +48,16 @@ router.post('/', async (req, res) => {
     const { error } = validateUser(req.body.input);
     if (error) return res.status(400).send(error.details[0].message);
     const user = new User({
-      username: req.body.input.username,
+      firstName: req.body.input.firstName,
+      lastName: req.body.input.lastName,
       email: req.body.input.email,
       password: bcrypt.hashSync(req.body.input.password, 10),
+      address: req.body.input.address,
+      phone: req.body.input.phone,
+      role: req.body.input.role,
     });
     const doc = await user.save();
-    const access = 'auth';
-    const token = jwt.sign({ _id: doc.id }, 'appsecret', { expiresIn: '1h' });
-    doc.confirmation_token.push({ access, token });
-    doc.save().then(() => token);
-    res.header('x-auth', token).send(doc);
+    res.send(doc);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -91,7 +91,7 @@ router.post('/login', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const body = pick(req.body.input, ['username', 'email', 'password']);
+    const body = pick(req.body.input, ['firstName', 'lastName', 'email', 'password', 'address', 'phone', 'role']);
     const user = await User.findOneAndUpdate({ _id: id }, { $set: body }, { new: true });
     if (!user) {
       return res.status(404).send();

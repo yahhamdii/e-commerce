@@ -1,12 +1,20 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const orderSchema = new mongoose.Schema({
-  userid: String,
-  poids: String,
-  totalPrice: String,
+  iduser: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  },
+  poids: Number,
+  totalPrice: Number,
   comment: String,
   validatingDate: Date,
-  validatorid: String,
+  validatorid: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+  },
 }, {
   collection: 'order',
   timestamps: true,

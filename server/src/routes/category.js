@@ -29,6 +29,7 @@ router.post('/', async (req, res) => {
   try {
     const category = new Category({
       libelle: req.body.input.libelle,
+      idcategory: req.body.input.idcategory,
     });
     const categorie = await category.save();
     res.send(categorie);
@@ -40,7 +41,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const body = _.pick(req.body.input, ['libelle']);
+    const body = _.pick(req.body.input, ['libelle', 'idcategory']);
     const category = await Category.findOneAndUpdate(
       { _id: id },
       { $set: body },

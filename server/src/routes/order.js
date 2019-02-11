@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const order = new Order({
-      userid: req.body.input.userid,
+      iduser: req.body.input.iduser,
       poids: req.body.input.poids,
       totalprice: req.body.input.totalprice,
       comment: req.body.input.comment,
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const body = _.pick(req.body.input, ['userid', 'poids', 'totalprice', 'comment', 'validatingdate', 'validatorid']);
+    const body = _.pick(req.body.input, ['iduser', 'poids', 'totalprice', 'comment', 'validatingdate', 'validatorid']);
     const order = await Order.findOneAndUpdate(
       { _id: id },
       { $set: body },

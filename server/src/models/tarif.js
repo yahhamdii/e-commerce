@@ -1,9 +1,14 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const tarifSchema = new mongoose.Schema({
-  idproduit: { type: String, required: true },
-  prixht: { type: String, required: true },
-  prixpvc: { type: String, required: true },
+  idproduit: {
+    type: Schema.Types.ObjectId,
+    ref: 'product',
+    required: true,
+  },
+  prixht: { type: Number, required: true },
+  prixpvc: { type: Number, required: true },
   datedebutvalidite: Date,
 }, {
   collection: 'tarif',

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const photoSchema = mongoose.Schema({
   url: {
     type: String,
@@ -9,18 +10,19 @@ const photoSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  idproduct: {
-    type: String,
+  idproduit: {
+    type: Schema.Types.ObjectId,
+    ref: 'product',
   },
-
   iduser: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'user',
   },
-  created_at: {
-    type: Date,
-    default: Date.now(),
-  },
+},
+{
+  collection: 'photo',
+  timestamps: true,
 });
-const Photo = mongoose.model('Photo', photoSchema);
+const Photo = mongoose.model('photo', photoSchema);
 
 export default Photo;

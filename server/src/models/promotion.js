@@ -1,11 +1,19 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const promotionSchema = new mongoose.Schema({
-  idproduit: { type: String, required: true },
-  idcategory: { type: String, required: true },
+  idproduit: {
+    type: Schema.Types.ObjectId,
+    ref: 'product',
+    required: true,
+  },
+  idcategory: {
+    type: Schema.Types.ObjectId,
+    ref: 'category',
+  },
   datedebut: { type: Date, required: true },
   datefin: { type: Date, required: true },
-  pourcentage: { type: String, required: true },
+  pourcentage: { type: Number, required: true },
 }, {
   collection: 'promotion',
   timestamps: true,
