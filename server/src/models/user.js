@@ -8,6 +8,8 @@ const userSchema = mongoose.Schema({
   address: String,
   phone: String,
   role: { type: String, default: 'client' },
+  resetToken: String,
+  resetTokenExpiration: Date,
 }, {
   collection: 'user',
   timestamps: true,
