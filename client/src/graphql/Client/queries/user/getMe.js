@@ -1,31 +1,19 @@
 import gql from 'graphql-tag';
 
 const GET_ME = gql`
-  query GetMe{
+  query GetMe {
     me @client {
-      user{
+      user {
         id
         firstName
         lastName
         email
         phone
         address
-        order {
-          id
-          items {
-            product {
-              id
-              name
-              image
-              quantity
-              price
-            }
-            quantity
-          }
+        avatar
       }
     }
   }
-}
 `;
 
 export default GET_ME;

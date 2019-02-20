@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
-import { compose, graphql } from 'react-apollo';
+import { compose, graphql, Query } from 'react-apollo';
 import {
-  withStyles, MenuItem, Menu, Link, IconButton,
+  withStyles, MenuItem, Menu, Link, Chip, Avatar,
 } from '@material-ui/core';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import styles from './navbarStyle';
 import UPDATE_NETWORK_STATUS from '../../../graphql/Client/mutations/user/udpdateNetworkState';
+import GET_ME from '../../../graphql/Client/queries/user/getMe';
 
 class RenderMenu extends Component {
   state = {
@@ -26,6 +26,7 @@ class RenderMenu extends Component {
     this.props.updateNeworkStatus({
       variables: {
         isConnected: false,
+        typeOfAuth: null,
         role: null,
       },
     })
@@ -38,14 +39,26 @@ class RenderMenu extends Component {
     const isMenuOpen = Boolean(anchorEl);
     return (
       <>
-        <IconButton
-          aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-          aria-haspopup="true"
-          onClick={this.handleProfileMenuOpen}
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
+        <Query query={GET_ME}>
+          {
+            ({ data }) => {
+              const { firstName, lastName, avatar } = data.me.user;
+              return (
+                <Chip
+                  avatar={
+                    avatar
+                      ? <Avatar alt={firstName} src={avatar} />
+                      : <Avatar>{firstName.slice(0, 1).toUpperCase()}</Avatar>
+                  }
+                  label={`${firstName} ${lastName}`}
+                  onClick={this.handleProfileMenuOpen}
+                  className={classes.chip}
+                />
+              );
+            }
+          }
+
+        </Query>
         <Menu
           anchorEl={anchorEl}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -54,12 +67,12 @@ class RenderMenu extends Component {
           onClose={this.handleMenuClose}
         >
           <MenuItem onClick={this.handleMenuClose}>
-            <Link component={RouterLink} className={classes.connexion} color="inherit" variant="body1" to="/signin">
+            <Link component={RouterLink} className={classes.connexion} color="inherit" variant="body1" to="/edit-user">
               Modifier
             </Link>
           </MenuItem>
           <MenuItem onClick={this.handleMenuClose}>
-            <Link component={RouterLink} className={classes.connexion} color="inherit" variant="body1" to="/register">
+            <Link component={RouterLink} className={classes.connexion} color="inherit" variant="body1" to="/edit-password">
               Changer mot de passe
             </Link>
           </MenuItem>

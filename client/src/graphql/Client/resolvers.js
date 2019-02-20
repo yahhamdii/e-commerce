@@ -4,6 +4,7 @@ export const defaultState = {
   networkStatus: {
     __typename: 'NetworkStatus',
     isConnected: false,
+    typeOfAuth: null,
     role: null,
   },
   me: {
@@ -20,15 +21,22 @@ export const defaultState = {
     __typename: 'CartStatus',
     open: false,
   },
+  flashMsg: {
+    __typename: 'FlashMsg',
+    message: null,
+    type: null,
+    status: false,
+  },
 };
 
 export const resolvers = {
   Mutation: {
-    updateNetworkStatus: (_, { isConnected, role }, { cache }) => {
+    updateNetworkStatus: (_, { isConnected, role, typeOfAuth }, { cache }) => {
       const data = {
         networkStatus: {
           __typename: 'NetworkStatus',
           isConnected,
+          typeOfAuth,
           role,
         },
       };
@@ -106,6 +114,18 @@ export const resolvers = {
         cartStatus: {
           __typename: 'CartStatus',
           open: !open,
+        },
+      };
+      cache.writeData({ data });
+    },
+
+    addMsgFlash: (_, { message, type, status }, { cache }) => {
+      const data = {
+        flashMsg: {
+          __typename: 'FlashMsg',
+          message,
+          type,
+          status,
         },
       };
       cache.writeData({ data });
