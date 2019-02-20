@@ -1,0 +1,141 @@
+type User {
+  id: ID! @unique
+  firstName: String!
+  lastName: String
+  email: String! @unique
+  password: String!
+  address: String
+  phone: String
+  image: [Photo!]!
+  commande: [Order!]!
+  commentproduit: [CommentProduct!]!
+  reactionproduit: [ReactionProduct!]!
+}
+type Category {
+  id: ID! @unique
+  libelle: String
+  produit: [Product!]!
+  promotion: [Promotion!]!
+}
+type Product {
+  id: ID! @unique
+  name: String
+  description: String
+  category: Category!
+  image: [PhotoProduct!]!
+  carte: [Carte!]!
+  colis: [Colis!]!
+  promotion: [Promotion!]!
+  commentaire: [CommentProduct!]!
+  reactionproduit: [ReactionProduct!]!
+  stock: [Stock!]!
+  tarif: [Tarif!]!
+}
+type PhotoProduct {
+  id: ID! @unique
+  url: String
+  title: String
+  produit: Product!
+}
+type Photo {
+  id: ID! @unique
+  url: String
+  title: String
+  user: User!
+}
+type Carte {
+  id: ID! @unique
+  produit: Product!
+  commande: Order!
+  unitprice: Int
+  totalprice: Int
+  quantity: Int
+}
+type Colis {
+  id: ID! @unique
+  produit: Product!
+  unite: String!
+  quantity: Int
+}
+type CommentProduct {
+  id: ID! @unique
+  produit: Product!
+  user: User!
+  commentaire: String
+  note: Int
+
+}
+type Delivery {
+  id: ID! @unique
+  commande: Order!
+  tarifdelivery: String!
+  deliverydate: String
+  deliverymode: String
+
+}
+type MessageClient {
+  id: ID! @unique
+  name: String!
+  email: String!
+  object: String!
+  message: String
+
+}
+type Order {
+  id: ID! @unique
+  user: User!
+  poids: String
+  comment: String
+  validatingDate: String
+  validator: String
+  totalPrice: Int
+  status: Status!
+  carte: [Carte!]!
+  livraison: [Delivery!]!
+
+}
+type Promotion {
+  id: ID! @unique
+  produit: Product
+  categorie: Category
+  datedebut: String!
+  datefin: String!
+  pourcentage: Int!
+
+}
+type ReactionProduct {
+  id: ID! @unique
+  produit: Product!
+  user: User!
+  reaction: Int
+
+}
+type Status {
+  id: ID! @unique
+  cle: String! @unique
+  libelle: String!
+  commande: [Order!]!
+
+}
+type Stock {
+  id: ID! @unique
+  produit: Product!
+  stockuc: Int!
+  type: Int!
+}
+type Tarif {
+  id: ID! @unique
+  produit: Product!
+  prixht: Int!
+  prixpvc: Int!
+  datedebutvalidite: String
+
+}
+type Supplier {
+  id: ID! @unique
+  firstName: String!
+  lastName: String
+  email: String!
+  address: String
+  phone: String
+}
