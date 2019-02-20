@@ -30,8 +30,6 @@ router.post('/', async (req, res) => {
     const produit = new Produit({
       name: req.body.input.name,
       description: req.body.input.description,
-      price: req.body.input.price,
-      quantity: req.body.input.quantity,
       idcategory: req.body.input.idcategory,
     });
     const prod = await produit.save();
@@ -44,7 +42,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const body = _.pick(req.body.input, ['name', 'description', 'price', 'quntity', 'idcategory']);
+    const body = _.pick(req.body.input, ['name', 'description', 'idcategory']);
     const produit = await Produit.findOneAndUpdate(
       { _id: id },
       { $set: body },
