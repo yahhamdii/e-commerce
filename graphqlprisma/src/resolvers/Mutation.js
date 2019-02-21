@@ -62,7 +62,30 @@ const Mutation = {
             },
             data: args.data
         }, info)
-    }
+    },
+    async createPhoto(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
+
+        return prisma.mutation.createPhoto({
+            data: {
+                title: args.data.title,
+                url: args.data.url,
+                user: {
+                    connect: {
+                        id: userId
+                    }
+                }
+            }
+        }, info)
+    },
+    updatePhoto(parent, args, { prisma }, info) {
+        return prisma.mutation.updatePhoto({
+            where: {
+                id: args.id
+            },
+            data: args.data
+        }, info)
+    },
 }
 
 export { Mutation as default }

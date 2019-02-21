@@ -2511,7 +2511,7 @@ type PhotoConnection {
 input PhotoCreateInput {
   url: String
   title: String
-  user: UserCreateOneWithoutImageInput!
+  user: UserCreateOneWithoutImageInput
 }
 
 input PhotoCreateManyWithoutUserInput {

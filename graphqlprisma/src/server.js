@@ -7,6 +7,9 @@ const pubsub = new PubSub()
 const server = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
+    resolverValidationOptions: {
+		requireResolversForResolveType: false,
+	},
     context(request) {
         return {
             pubsub,

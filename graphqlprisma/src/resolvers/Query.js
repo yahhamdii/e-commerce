@@ -27,7 +27,10 @@ const Query = {
                 id: userId
             }
         })
-    }
+    },
+    photos(parent, args, { prisma }, info) {
+        return prisma.query.photos(null, info)
+    },
 }
 
 export { Query as default }
