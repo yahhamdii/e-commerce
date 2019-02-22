@@ -6,6 +6,21 @@ const GET_PRODUCT = gql`
       id
       name
       description
+      image{
+        id
+        url
+      }
+      category{
+        id
+        libelle
+      }
+      tarif{
+        prixht
+        prixpvc
+      }
+      stock{
+        stockuc
+      }
   }
 }
 `;

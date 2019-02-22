@@ -22,7 +22,7 @@ const ProductList = ({ classes, product, changeCartStatus }) => (
             {(addOneItem) => (
               <Button
                 size="small"
-                disabled={product.quantity <= 0}
+                disabled={product.stock[0].stockuc <= 0}
                 className={classes.addShoppingCart}
                 onClick={(e) => {
                   e.preventDefault();
@@ -44,7 +44,7 @@ const ProductList = ({ classes, product, changeCartStatus }) => (
         { product.name }
       </Typography>
       <Typography component="small">
-        { `${product.price} dt` }
+        { `${product.tarif[0].prixpvc} dt` }
       </Typography>
     </CardContent>
     <CardActions>

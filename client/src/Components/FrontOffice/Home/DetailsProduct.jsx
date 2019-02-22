@@ -16,15 +16,14 @@ const DetailsProduct = ({
       if (loading) return <h1> Chargement... </h1>;
       if (data) {
         const {
-          name, image, description, price, quantity,
+          name, image, description, tarif, stock,
         } = data.product;
-        console.log(data.product);
         return (
           <Grid container spacing={24}>
             <Grid item xs={6}>
               <CardMedia
                 className={classes.media}
-                image={image}
+                image={image[0].url}
                 title={name}
               />
             </Grid>
@@ -33,15 +32,15 @@ const DetailsProduct = ({
               <p className={classes.productDesciption}>{description}</p>
               <strong className={classes.strong}>
                 Prix:
-                <span className={classes.productPrice}>{` ${price} DT`}</span>
+                <span className={classes.productPrice}>{` ${tarif[0].prixht} DT`}</span>
               </strong>
               <strong className={classes.strong}>
                 Disponibilté :
-                <span className={classes.availability}>{quantity > 0 ? ' Disponible' : <Typography style={{ color: 'red', fontSize: 20 }}>EPUISE</Typography>}</span>
+                <span className={classes.availability}>{stock[0].stockuc > 0 ? ' En Stock' : <Typography style={{ color: 'red', fontSize: 20 }}>EPUISE</Typography>}</span>
               </strong>
               <Button
                 variant="outlined"
-                disabled={quantity <= 0}
+                disabled={stock[0].stockuc <= 0}
                 className={classes.productButton}
                 onClick={() => {
                   addOneItem({

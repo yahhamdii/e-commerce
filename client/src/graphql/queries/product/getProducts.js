@@ -14,6 +14,13 @@ const GET_PRODUCTS = gql`
         id
         libelle
       }
+      tarif{
+        prixht
+        prixpvc
+      }
+      stock{
+        stockuc
+      }
     }
   }
 `;
