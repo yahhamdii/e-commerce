@@ -6,12 +6,13 @@ const GET_PRODUCTS = gql`
       id
       name
       description
-      price
-      quantity
-      image
-      category {
+      image{
         id
-        name
+        url
+      }
+      category{
+        id
+        libelle
       }
     }
   }

@@ -18,6 +18,7 @@ const DetailsProduct = ({
         const {
           name, image, description, price, quantity,
         } = data.product;
+        console.log(data.product);
         return (
           <Grid container spacing={24}>
             <Grid item xs={6}>

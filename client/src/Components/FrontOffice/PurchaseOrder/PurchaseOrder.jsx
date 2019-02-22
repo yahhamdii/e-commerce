@@ -42,7 +42,7 @@ const PurchaseOrder = ({ classes }) => (
                   phone
                 </i>
               </ListItemIcon>
-              <ListItemText primary="22 222 222 / 71 717 171" />
+              <ListItemText primary="" />
             </ListItem>
             <ListItem li>
               <ListItemIcon>
@@ -50,7 +50,7 @@ const PurchaseOrder = ({ classes }) => (
                   mail
                 </i>
               </ListItemIcon>
-              <ListItemText primary="contact@cybershop.com.tn" />
+              <ListItemText primary="" />
             </ListItem>
           </Paper>
         </Grid>

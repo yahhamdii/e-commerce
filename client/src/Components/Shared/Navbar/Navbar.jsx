@@ -32,7 +32,6 @@ const Navbar = ({ classes, networkStatus: { networkStatus } }) => (
           <Typography className={classes.title} variant="h6" color="inherit" noWrap>
             <Mouse />
             {' '}
-            CyberShop
             {' '}
             {networkStatus.role === 'admin' && <small>Admin</small>}
           </Typography>
@@ -41,12 +40,6 @@ const Navbar = ({ classes, networkStatus: { networkStatus } }) => (
         <div className={classes.sectionDesktop}>
           {!networkStatus.isConnected && (
             <>
-              <Link component={RouterLink} className={classes.connexion} color="inherit" variant="body1" to="/signin">
-                Connexion
-              </Link>
-              <Link component={RouterLink} className={classes.connexion} color="inherit" variant="body1" to="/register">
-                Inscription
-              </Link>
             </>
           )}
         </div>

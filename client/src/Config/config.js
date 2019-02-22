@@ -1,4 +1,4 @@
-export const reactTableConfig =  {
+export const reactTableConfig = {
   filterable: true,
   defaultPageSize: 10,
   noDataText: "Il n'y a pas de données pour le moment",

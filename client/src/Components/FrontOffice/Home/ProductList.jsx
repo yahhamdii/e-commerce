@@ -14,7 +14,7 @@ const ProductList = ({ classes, product, changeCartStatus }) => (
     <CardActionArea>
       <CardMedia
         className={classes.media}
-        image={product.image}
+        image={product.image[0].url}
         title={product.name}
       >
         <Tooltip title="Ajouter au panier" placement="top-end">
