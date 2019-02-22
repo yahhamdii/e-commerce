@@ -1,11 +1,13 @@
 import bcrypt from 'bcryptjs'
-import getUserId from '../utils/getUserId'
-import generateToken from '../utils/generateToken'
-import hashPassword from '../utils/hashPassword'
+import jwt from 'jsonwebtoken'
 
 const Mutation = {
     async createUser(parent, args, { prisma }, info) {
-        const password = await hashPassword(args.data.password)
+        if (args.data.password.length < 8) {
+            throw new Error('Password must be 8 characters or longer.')
+        }
+
+        const password = await bcrypt.hash(args.data.password, 10)
         const user = await prisma.mutation.createUser({
             data: {
                 ...args.data,
@@ -15,7 +17,7 @@ const Mutation = {
 
         return {
             user,
-            token: generateToken(user.id)
+            token: jwt.sign({ userId: user.id }, 'thisisasecret')
         }
     },
     async login(parent, args, { prisma }, info) {
@@ -37,49 +39,18 @@ const Mutation = {
 
         return {
             user,
-            token: generateToken(user.id)
+            token: jwt.sign({ userId: user.id }, 'thisisasecret')
         }
     },
-    async deleteUser(parent, args, { prisma, request }, info) {
-        const userId = getUserId(request)
-
+    async deleteUser(parent, args, { prisma }, info) {
         return prisma.mutation.deleteUser({
             where: {
-                id: userId
+                id: args.id
             }
         }, info)
     },
-    async updateUser(parent, args, { prisma, request }, info) {
-        const userId = getUserId(request)
-
-        if (typeof args.data.password === 'string') {
-            args.data.password = await hashPassword(args.data.password)
-        }
-
+    async updateUser(parent, args, { prisma }, info) {
         return prisma.mutation.updateUser({
-            where: {
-                id: userId
-            },
-            data: args.data
-        }, info)
-    },
-    async createPhoto(parent, args, { prisma, request }, info) {
-        const userId = getUserId(request)
-
-        return prisma.mutation.createPhoto({
-            data: {
-                title: args.data.title,
-                url: args.data.url,
-                user: {
-                    connect: {
-                        id: userId
-                    }
-                }
-            }
-        }, info)
-    },
-    updatePhoto(parent, args, { prisma }, info) {
-        return prisma.mutation.updatePhoto({
             where: {
                 id: args.id
             },

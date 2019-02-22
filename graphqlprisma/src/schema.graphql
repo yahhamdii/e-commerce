@@ -1,5 +1,5 @@
 # source: http://192.168.99.100:4444
-# timestamp: Wed Feb 20 2019 16:25:59 GMT+0100 (GMT+01:00)
+# timestamp: Fri Feb 22 2019 14:04:30 GMT+0100 (GMT+01:00)
 
 type AggregateCarte {
   count: Int!
@@ -1953,10 +1953,7 @@ type OrderConnection {
   edges: [OrderEdge]!
   aggregate: AggregateOrder!
 }
-input LoginUserInput {
-    email: String!
-    password: String!
-}
+
 input OrderCreateInput {
   poids: String
   comment: String
@@ -2511,7 +2508,7 @@ type PhotoConnection {
 input PhotoCreateInput {
   url: String
   title: String
-  user: UserCreateOneWithoutImageInput
+  user: UserCreateOneWithoutImageInput!
 }
 
 input PhotoCreateManyWithoutUserInput {
@@ -4053,7 +4050,6 @@ input PromotionWhereUniqueInput {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  me: User!
   categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category]!
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   photoProducts(where: PhotoProductWhereInput, orderBy: PhotoProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PhotoProduct]!
@@ -5526,10 +5522,7 @@ type User implements Node {
   commentproduit(where: CommentProductWhereInput, orderBy: CommentProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CommentProduct!]
   reactionproduit(where: ReactionProductWhereInput, orderBy: ReactionProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ReactionProduct!]
 }
-type AuthPayload {
-    token: String!
-    user: User!
-}
+
 """A connection to a list of items."""
 type UserConnection {
   """Information to aid in pagination."""
@@ -6119,4 +6112,12 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+}
+input LoginUserInput {
+    email: String!
+    password: String!
+}
+type AuthPayload {
+    token: String!
+    user: User!
 }
