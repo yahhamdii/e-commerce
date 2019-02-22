@@ -22,7 +22,7 @@ const Query = {
             where: {
                 id: args.where.id
             }
-        })
+        }, info)
     },
 }
 
