@@ -57,6 +57,35 @@ const Mutation = {
             data: args.data
         }, info)
     },
+    async createStatus(parent, args, { prisma }, info) {
+        const status = await prisma.mutation.createStatus({
+            data: {
+                ...args.data
+            }
+        })
+
+        return status
+    },
+    async createOrder(parent, args, { prisma }, info) {
+        const order = await prisma.mutation.createOrder({
+            data: {
+                ...args.data
+            }
+        })
+
+        return order
+        
+    },
+    async createCarte(parent, args, { prisma }, info) {
+        const carte = await prisma.mutation.createCarte({
+            data: {
+                ...args.data
+            }
+        })
+
+        return carte
+        
+    },
 }
 
 export { Mutation as default }
