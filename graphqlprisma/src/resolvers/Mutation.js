@@ -51,11 +51,48 @@ const Mutation = {
     },
     async updateUser(parent, args, { prisma }, info) {
         return prisma.mutation.updateUser({
+            
             where: {
-                id: args.id
+                id: args.where.id
             },
             data: args.data
         }, info)
+    },
+    async createProduct(parent, args, { prisma }, info) {
+        const product = await prisma.mutation.createProduct({
+            data: {
+                ...args.data
+            }
+        })
+
+        return product
+    },
+    async createPhotoProduct(parent, args, { prisma }, info) {
+        const imageproduct = await prisma.mutation.createPhotoProduct({
+            data: {
+                ...args.data
+            }
+        })
+
+        return imageproduct
+    },
+    async createTarif(parent, args, { prisma }, info) {
+        const tarifproduct = await prisma.mutation.createTarif({
+            data: {
+                ...args.data
+            }
+        })
+
+        return tarifproduct
+    },
+    async createStock(parent, args, { prisma }, info) {
+        const stockproduct = await prisma.mutation.createStock({
+            data: {
+                ...args.data
+            }
+        })
+
+        return stockproduct
     },
     async createStatus(parent, args, { prisma }, info) {
         const status = await prisma.mutation.createStatus({
@@ -85,6 +122,24 @@ const Mutation = {
 
         return carte
         
+    },
+    async updateCarte(parent, args, { prisma }, info) {
+        const carte = await prisma.mutation.updateCarte({
+            where: {
+                id: args.where.id
+            },
+            data: args.data
+        }, info)
+
+        return carte;
+        
+    },
+    async deleteCarte(parent, args, { prisma }, info) {
+        return prisma.mutation.deleteCarte({
+            where: {
+                id: args.where.id
+            }
+        }, info)
     },
 }
 

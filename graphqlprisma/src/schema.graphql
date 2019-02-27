@@ -1,5 +1,5 @@
 # source: http://192.168.99.100:4444
-# timestamp: Fri Feb 22 2019 14:04:30 GMT+0100 (GMT+01:00)
+# timestamp: Tue Feb 26 2019 10:12:45 GMT+0100 (GMT+01:00)
 
 type AggregateCarte {
   count: Int!
@@ -77,7 +77,7 @@ type BatchPayload {
 type Carte implements Node {
   id: ID!
   produit(where: ProductWhereInput): Product!
-  commande(where: OrderWhereInput): Order!
+  commande(where: OrderWhereInput): Order
   unitprice: Int
   totalprice: Int
   quantity: Int
@@ -98,7 +98,7 @@ input CarteCreateInput {
   totalprice: Int
   quantity: Int
   produit: ProductCreateOneWithoutCarteInput!
-  commande: OrderCreateOneWithoutCarteInput!
+  commande: OrderCreateOneWithoutCarteInput
 }
 
 input CarteCreateManyWithoutCommandeInput {
@@ -122,7 +122,7 @@ input CarteCreateWithoutProduitInput {
   unitprice: Int
   totalprice: Int
   quantity: Int
-  commande: OrderCreateOneWithoutCarteInput!
+  commande: OrderCreateOneWithoutCarteInput
 }
 
 """An edge in a connection."""
@@ -1815,7 +1815,7 @@ input MessageClientWhereUniqueInput {
 
 type Mutation {
   createUser(data: UserCreateInput!): AuthPayload!
-  login(data: LoginUserInput!): AuthPayload!
+  login(data: LoginUserInput): AuthPayload!
   createCategory(data: CategoryCreateInput!): Category!
   createProduct(data: ProductCreateInput!): Product!
   createPhotoProduct(data: PhotoProductCreateInput!): PhotoProduct!
@@ -1933,7 +1933,7 @@ interface Node {
 
 type Order implements Node {
   id: ID!
-  user(where: UserWhereInput): User!
+  user(where: UserWhereInput): User
   poids: String
   comment: String
   validatingDate: String
@@ -1960,7 +1960,7 @@ input OrderCreateInput {
   validatingDate: String
   validator: String
   totalPrice: Int
-  user: UserCreateOneWithoutCommandeInput!
+  user: UserCreateOneWithoutCommandeInput
   status: StatusCreateOneWithoutCommandeInput!
   carte: CarteCreateManyWithoutCommandeInput
   livraison: DeliveryCreateManyWithoutCommandeInput
@@ -1992,7 +1992,7 @@ input OrderCreateWithoutCarteInput {
   validatingDate: String
   validator: String
   totalPrice: Int
-  user: UserCreateOneWithoutCommandeInput!
+  user: UserCreateOneWithoutCommandeInput
   status: StatusCreateOneWithoutCommandeInput!
   livraison: DeliveryCreateManyWithoutCommandeInput
 }
@@ -2003,7 +2003,7 @@ input OrderCreateWithoutLivraisonInput {
   validatingDate: String
   validator: String
   totalPrice: Int
-  user: UserCreateOneWithoutCommandeInput!
+  user: UserCreateOneWithoutCommandeInput
   status: StatusCreateOneWithoutCommandeInput!
   carte: CarteCreateManyWithoutCommandeInput
 }
@@ -2014,7 +2014,7 @@ input OrderCreateWithoutStatusInput {
   validatingDate: String
   validator: String
   totalPrice: Int
-  user: UserCreateOneWithoutCommandeInput!
+  user: UserCreateOneWithoutCommandeInput
   carte: CarteCreateManyWithoutCommandeInput
   livraison: DeliveryCreateManyWithoutCommandeInput
 }
@@ -2139,6 +2139,7 @@ input OrderUpdateManyWithoutUserInput {
 input OrderUpdateOneWithoutCarteInput {
   create: OrderCreateWithoutCarteInput
   connect: OrderWhereUniqueInput
+  disconnect: Boolean
   delete: Boolean
   update: OrderUpdateWithoutCarteDataInput
   upsert: OrderUpsertWithoutCarteInput
@@ -5709,6 +5710,7 @@ input UserUpdateInput {
 input UserUpdateOneWithoutCommandeInput {
   create: UserCreateWithoutCommandeInput
   connect: UserWhereUniqueInput
+  disconnect: Boolean
   delete: Boolean
   update: UserUpdateWithoutCommandeDataInput
   upsert: UserUpsertWithoutCommandeInput

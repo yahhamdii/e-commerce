@@ -46,7 +46,7 @@ type Photo {
 type Carte {
   id: ID! @unique
   produit: Product!
-  commande: Order!
+  commande: Order
   unitprice: Int
   totalprice: Int
   quantity: Int
@@ -83,7 +83,7 @@ type MessageClient {
 }
 type Order {
   id: ID! @unique
-  user: User!
+  user: User
   poids: String
   comment: String
   validatingDate: String

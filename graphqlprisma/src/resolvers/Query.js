@@ -24,6 +24,12 @@ const Query = {
             }
         }, info)
     },
+    orders(parent, args, { prisma }, info) {
+        return prisma.query.orders(null, info)
+    },
+    cartes(parent, args, { prisma }, info) {
+        return prisma.query.cartes(null, info)
+    },
 }
 
 export { Query as default }

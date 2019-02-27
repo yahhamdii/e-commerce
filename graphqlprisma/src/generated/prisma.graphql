@@ -1,5 +1,5 @@
 # source: http://192.168.99.100:4444
-# timestamp: Mon Feb 25 2019 13:29:10 GMT+0100 (GMT+01:00)
+# timestamp: Tue Feb 26 2019 10:12:45 GMT+0100 (GMT+01:00)
 
 type AggregateCarte {
   count: Int!
@@ -77,6 +77,7 @@ type BatchPayload {
 type Carte implements Node {
   id: ID!
   produit(where: ProductWhereInput): Product!
+  commande(where: OrderWhereInput): Order
   unitprice: Int
   totalprice: Int
   quantity: Int
@@ -97,6 +98,12 @@ input CarteCreateInput {
   totalprice: Int
   quantity: Int
   produit: ProductCreateOneWithoutCarteInput!
+  commande: OrderCreateOneWithoutCarteInput
+}
+
+input CarteCreateManyWithoutCommandeInput {
+  create: [CarteCreateWithoutCommandeInput!]
+  connect: [CarteWhereUniqueInput!]
 }
 
 input CarteCreateManyWithoutProduitInput {
@@ -104,10 +111,18 @@ input CarteCreateManyWithoutProduitInput {
   connect: [CarteWhereUniqueInput!]
 }
 
+input CarteCreateWithoutCommandeInput {
+  unitprice: Int
+  totalprice: Int
+  quantity: Int
+  produit: ProductCreateOneWithoutCarteInput!
+}
+
 input CarteCreateWithoutProduitInput {
   unitprice: Int
   totalprice: Int
   quantity: Int
+  commande: OrderCreateOneWithoutCarteInput
 }
 
 """An edge in a connection."""
@@ -185,6 +200,16 @@ input CarteUpdateInput {
   totalprice: Int
   quantity: Int
   produit: ProductUpdateOneWithoutCarteInput
+  commande: OrderUpdateOneWithoutCarteInput
+}
+
+input CarteUpdateManyWithoutCommandeInput {
+  create: [CarteCreateWithoutCommandeInput!]
+  connect: [CarteWhereUniqueInput!]
+  disconnect: [CarteWhereUniqueInput!]
+  delete: [CarteWhereUniqueInput!]
+  update: [CarteUpdateWithWhereUniqueWithoutCommandeInput!]
+  upsert: [CarteUpsertWithWhereUniqueWithoutCommandeInput!]
 }
 
 input CarteUpdateManyWithoutProduitInput {
@@ -196,15 +221,34 @@ input CarteUpdateManyWithoutProduitInput {
   upsert: [CarteUpsertWithWhereUniqueWithoutProduitInput!]
 }
 
+input CarteUpdateWithoutCommandeDataInput {
+  unitprice: Int
+  totalprice: Int
+  quantity: Int
+  produit: ProductUpdateOneWithoutCarteInput
+}
+
 input CarteUpdateWithoutProduitDataInput {
   unitprice: Int
   totalprice: Int
   quantity: Int
+  commande: OrderUpdateOneWithoutCarteInput
+}
+
+input CarteUpdateWithWhereUniqueWithoutCommandeInput {
+  where: CarteWhereUniqueInput!
+  data: CarteUpdateWithoutCommandeDataInput!
 }
 
 input CarteUpdateWithWhereUniqueWithoutProduitInput {
   where: CarteWhereUniqueInput!
   data: CarteUpdateWithoutProduitDataInput!
+}
+
+input CarteUpsertWithWhereUniqueWithoutCommandeInput {
+  where: CarteWhereUniqueInput!
+  update: CarteUpdateWithoutCommandeDataInput!
+  create: CarteCreateWithoutCommandeInput!
 }
 
 input CarteUpsertWithWhereUniqueWithoutProduitInput {
@@ -329,6 +373,7 @@ input CarteWhereInput {
   """All values greater than or equal the given value."""
   quantity_gte: Int
   produit: ProductWhereInput
+  commande: OrderWhereInput
 }
 
 input CarteWhereUniqueInput {
@@ -1894,6 +1939,7 @@ type Order implements Node {
   validator: String
   totalPrice: Int
   status(where: StatusWhereInput): Status!
+  carte(where: CarteWhereInput, orderBy: CarteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Carte!]
   livraison(where: DeliveryWhereInput, orderBy: DeliveryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Delivery!]
 }
 
@@ -1915,6 +1961,7 @@ input OrderCreateInput {
   totalPrice: Int
   user: UserCreateOneWithoutCommandeInput
   status: StatusCreateOneWithoutCommandeInput!
+  carte: CarteCreateManyWithoutCommandeInput
   livraison: DeliveryCreateManyWithoutCommandeInput
 }
 
@@ -1928,9 +1975,25 @@ input OrderCreateManyWithoutUserInput {
   connect: [OrderWhereUniqueInput!]
 }
 
+input OrderCreateOneWithoutCarteInput {
+  create: OrderCreateWithoutCarteInput
+  connect: OrderWhereUniqueInput
+}
+
 input OrderCreateOneWithoutLivraisonInput {
   create: OrderCreateWithoutLivraisonInput
   connect: OrderWhereUniqueInput
+}
+
+input OrderCreateWithoutCarteInput {
+  poids: String
+  comment: String
+  validatingDate: String
+  validator: String
+  totalPrice: Int
+  user: UserCreateOneWithoutCommandeInput
+  status: StatusCreateOneWithoutCommandeInput!
+  livraison: DeliveryCreateManyWithoutCommandeInput
 }
 
 input OrderCreateWithoutLivraisonInput {
@@ -1941,6 +2004,7 @@ input OrderCreateWithoutLivraisonInput {
   totalPrice: Int
   user: UserCreateOneWithoutCommandeInput
   status: StatusCreateOneWithoutCommandeInput!
+  carte: CarteCreateManyWithoutCommandeInput
 }
 
 input OrderCreateWithoutStatusInput {
@@ -1950,6 +2014,7 @@ input OrderCreateWithoutStatusInput {
   validator: String
   totalPrice: Int
   user: UserCreateOneWithoutCommandeInput
+  carte: CarteCreateManyWithoutCommandeInput
   livraison: DeliveryCreateManyWithoutCommandeInput
 }
 
@@ -1960,6 +2025,7 @@ input OrderCreateWithoutUserInput {
   validator: String
   totalPrice: Int
   status: StatusCreateOneWithoutCommandeInput!
+  carte: CarteCreateManyWithoutCommandeInput
   livraison: DeliveryCreateManyWithoutCommandeInput
 }
 
@@ -2047,6 +2113,7 @@ input OrderUpdateInput {
   totalPrice: Int
   user: UserUpdateOneWithoutCommandeInput
   status: StatusUpdateOneWithoutCommandeInput
+  carte: CarteUpdateManyWithoutCommandeInput
   livraison: DeliveryUpdateManyWithoutCommandeInput
 }
 
@@ -2068,12 +2135,32 @@ input OrderUpdateManyWithoutUserInput {
   upsert: [OrderUpsertWithWhereUniqueWithoutUserInput!]
 }
 
+input OrderUpdateOneWithoutCarteInput {
+  create: OrderCreateWithoutCarteInput
+  connect: OrderWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: OrderUpdateWithoutCarteDataInput
+  upsert: OrderUpsertWithoutCarteInput
+}
+
 input OrderUpdateOneWithoutLivraisonInput {
   create: OrderCreateWithoutLivraisonInput
   connect: OrderWhereUniqueInput
   delete: Boolean
   update: OrderUpdateWithoutLivraisonDataInput
   upsert: OrderUpsertWithoutLivraisonInput
+}
+
+input OrderUpdateWithoutCarteDataInput {
+  poids: String
+  comment: String
+  validatingDate: String
+  validator: String
+  totalPrice: Int
+  user: UserUpdateOneWithoutCommandeInput
+  status: StatusUpdateOneWithoutCommandeInput
+  livraison: DeliveryUpdateManyWithoutCommandeInput
 }
 
 input OrderUpdateWithoutLivraisonDataInput {
@@ -2084,6 +2171,7 @@ input OrderUpdateWithoutLivraisonDataInput {
   totalPrice: Int
   user: UserUpdateOneWithoutCommandeInput
   status: StatusUpdateOneWithoutCommandeInput
+  carte: CarteUpdateManyWithoutCommandeInput
 }
 
 input OrderUpdateWithoutStatusDataInput {
@@ -2093,6 +2181,7 @@ input OrderUpdateWithoutStatusDataInput {
   validator: String
   totalPrice: Int
   user: UserUpdateOneWithoutCommandeInput
+  carte: CarteUpdateManyWithoutCommandeInput
   livraison: DeliveryUpdateManyWithoutCommandeInput
 }
 
@@ -2103,6 +2192,7 @@ input OrderUpdateWithoutUserDataInput {
   validator: String
   totalPrice: Int
   status: StatusUpdateOneWithoutCommandeInput
+  carte: CarteUpdateManyWithoutCommandeInput
   livraison: DeliveryUpdateManyWithoutCommandeInput
 }
 
@@ -2114,6 +2204,11 @@ input OrderUpdateWithWhereUniqueWithoutStatusInput {
 input OrderUpdateWithWhereUniqueWithoutUserInput {
   where: OrderWhereUniqueInput!
   data: OrderUpdateWithoutUserDataInput!
+}
+
+input OrderUpsertWithoutCarteInput {
+  update: OrderUpdateWithoutCarteDataInput!
+  create: OrderCreateWithoutCarteInput!
 }
 
 input OrderUpsertWithoutLivraisonInput {
@@ -2366,6 +2461,9 @@ input OrderWhereInput {
   totalPrice_gte: Int
   user: UserWhereInput
   status: StatusWhereInput
+  carte_every: CarteWhereInput
+  carte_some: CarteWhereInput
+  carte_none: CarteWhereInput
   livraison_every: DeliveryWhereInput
   livraison_some: DeliveryWhereInput
   livraison_none: DeliveryWhereInput
