@@ -6,22 +6,23 @@ import {
 import styles from './CartStyle';
 import DELETE_ITEM from '../../../graphql/Client/mutations/cart/deleteItem';
 import ADD_ONE_ITEM from '../../../graphql/Client/mutations/cart/addItem';
-import MINUS_ONE_ITEM from '../../../graphql/Client/mutations/cart/minusItem';
+import UPDATE_CARTE from '../../../graphql/Client/mutations/cart/updateCarte';
 
-const CartItem = ({ classes, item }) => (
-  <ListItem key={item.product.id}>
+const CartItem = ({ classes, item }) => console.log('vvvvvvvv', item) || (
+ 
+  <ListItem key={item.produit.id}>
     <Grid container spacing={24} className={classes.item}>
       <Grid item xs={3}>
         <CardMedia
           className={classes.media}
-          image={item.product.image}
-          title={item.product.name}
+          image={item.produit.image}
+          title={item.produit.name}
         />
-        <ListItemText primary={<Typography className={classes.itemText} variant="h6">{item.product.name}</Typography>} />
+        <ListItemText primary={<Typography className={classes.itemText} variant="h6">{item.produit.name}</Typography>} />
       </Grid>
       <Grid className={classes.info} item xs={5}>
 
-        <Mutation mutation={MINUS_ONE_ITEM} variables={{ id: item.product.id }}>
+        <Mutation mutation={UPDATE_CARTE} variables={{ id: item.produit.id }}>
           {(minusOneItem) => (
             <Button
               onClick={(e) => {
@@ -39,11 +40,11 @@ const CartItem = ({ classes, item }) => (
           <ListItemText
             className={classes.listItemText}
             primary={<Typography className={classes.itemText} variant="small">{`Quantité: ${item.quantity}`}</Typography>}
-            secondary={<Typography className={classes.itemTextSecodary} variant="small">{`Prix unitaire: ${item.product.price}`}</Typography>}
+            secondary={<Typography className={classes.itemTextSecodary} variant="small">{`Prix unitaire: ${item.produit.tarif[0].prixpvc}`}</Typography>}
           />
         </div>
 
-        <Mutation mutation={ADD_ONE_ITEM} variables={{ input: item.product }}>
+        <Mutation mutation={ADD_ONE_ITEM} variables={{ data: item.produit }}>
           {(addOneItem) => (
             <Button
               onClick={(e) => {
@@ -61,12 +62,12 @@ const CartItem = ({ classes, item }) => (
       <Grid item xs={3}>
         <ListItemText
           className={classes.total}
-          primary={<Typography className={classes.itemText} variant="strong">{`${item.product.price * item.quantity} DT`}</Typography>}
+          primary={<Typography className={classes.itemText} variant="strong">{`${item.produit.tarif[0].prixpvc * item.quantity} DT`}</Typography>}
         />
       </Grid>
       <Grid item xs={1}>
 
-        <Mutation mutation={DELETE_ITEM} variables={{ input: item }}>
+        <Mutation mutation={DELETE_ITEM} variables={{ data: item }}>
           { (deleteItem) => (
             <Button
               className={classes.cartBtn}
@@ -74,8 +75,7 @@ const CartItem = ({ classes, item }) => (
                 e.preventDefault();
                 deleteItem();
               }}
-            >
-              X
+            > X
             </Button>
           )}
         </Mutation>

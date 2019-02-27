@@ -45,7 +45,7 @@ const Navbar = ({ classes, networkStatus: { networkStatus } }) => (
         </div>
         <Query query={GET_CART}>
           {
-            ({ data: { cart } }) => (
+            ({ data: { cartes } }) => (
               <Mutation mutation={CHANGE_CART_STATUS} variables={{ open: false }}>
                 {
                   (changeCartStatus) => (
@@ -56,7 +56,7 @@ const Navbar = ({ classes, networkStatus: { networkStatus } }) => (
                         changeCartStatus();
                       }}
                     >
-                      <Badge badgeContent={cart.totalQuantity} color="secondary">
+                      <Badge badgeContent={cartes.quantity} color="secondary">
                         <i className="material-icons">
                               shopping_cart
                         </i>

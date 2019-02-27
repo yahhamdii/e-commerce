@@ -11,21 +11,21 @@ import CartItem from './CartItem';
 const Cart = ({ classes, history, changeCartStatus }) => (
   <Query query={GET_CART}>
     {
-      ({ data: { cart }, loading }) => {
+      ({ data: { cartes }, loading }) => {
         if (loading) return <h1> Chargement... </h1>;
+        console.log('xxxxxxxx', cartes);
         return (
           <div className={classes.cartContent}>
             <div className={classes.cartHeader}>
-              <i className={`material-icons ${classes.iconShoppingCart}`}>
-                shopping_cart
-              </i>
-              <span className={classes.totalQuantity}>{cart.totalQuantity}</span>
+              <i className={`material-icons ${classes.iconShoppingCart}`}> shopping_cart </i>
+              <span className={classes.totalQuantity}>{cartes[1].quantity}</span>
             </div>
             {
-              cart.items.length > 0 ? (
+
+              cartes[1].quantity > 0 ? (
                 <List className={classes.cartList}>
                   {
-                    cart.items.map((item) => <CartItem item={item} />)
+                    cartes.map((item) => <CartItem item={item} />)
                   }
                 </List>
               ) : (
@@ -35,10 +35,10 @@ const Cart = ({ classes, history, changeCartStatus }) => (
             <div className={classes.cartFooter}>
               <div className={classes.cartFooterTotal}>
                 <div className={classes.sub}>TOTAL TTC:</div>
-                <div className={classes.subPrice}>{`${cart.totalPrice} DT`}</div>
+                <div className={classes.subPrice}>{`${cartes[0].totalprice} DT`}</div>
               </div>
               <Button
-                disabled={cart.items.length === 0}
+                disabled={cartes[1].produit.length === 0}
                 className={classes.validateBtn}
                 onClick={(e) => {
                   e.preventDefault();
@@ -46,7 +46,7 @@ const Cart = ({ classes, history, changeCartStatus }) => (
                   changeCartStatus({ variables: { open: true } });
                 }}
               >
-                Valider
+                  Valider
               </Button>
             </div>
           </div>

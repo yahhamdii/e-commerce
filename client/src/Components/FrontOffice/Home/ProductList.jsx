@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation, compose, graphql } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import {
   withStyles, Card, CardActionArea, CardActions,
@@ -7,9 +7,9 @@ import {
 } from '@material-ui/core';
 import styles from './HomeStyle';
 import ADD_ONE_ITEM from '../../../graphql/Client/mutations/cart/addItem';
-import CHANGE_CART_STATUS from '../../../graphql/Client/mutations/cart/changeCartStatus';
 
-const ProductList = ({ classes, product, changeCartStatus }) => (
+
+const ProductList = ({ classes, product }) => (
   <Card className={classes.card}>
     <CardActionArea>
       <CardMedia
@@ -18,21 +18,28 @@ const ProductList = ({ classes, product, changeCartStatus }) => (
         title={product.name}
       >
         <Tooltip title="Ajouter au panier" placement="top-end">
-          <Mutation mutation={ADD_ONE_ITEM} variables={{ input: product }}>
-            {(addOneItem) => (
+          <Mutation mutation={ADD_ONE_ITEM}>
+            {(createCarte) => (
               <Button
                 size="small"
                 disabled={product.stock[0].stockuc <= 0}
                 className={classes.addShoppingCart}
                 onClick={(e) => {
                   e.preventDefault();
-                  addOneItem();
-                  changeCartStatus();
-                }}
+                  createCarte({
+                    variables: {
+                      data: {
+                        unitprice: product.tarif[0].prixpvc,
+                        totalprice: product.tarif[0].prixpvc,
+                        quantity: 1,
+                        produit: { connect: { id: product.id } },
+                      },
+                    },
+                  });
+                }
+                }
               >
-                <i className="material-icons">
-                  add_shopping_cart
-                </i>
+                <i className="material-icons"> add_shopping_cart </i>
               </Button>
             )}
           </Mutation>
@@ -55,6 +62,4 @@ const ProductList = ({ classes, product, changeCartStatus }) => (
   </Card>
 );
 
-export default compose(
-  graphql(CHANGE_CART_STATUS, { name: 'changeCartStatus' })
-)(withStyles(styles)(ProductList));
+export default withStyles(styles)(ProductList);

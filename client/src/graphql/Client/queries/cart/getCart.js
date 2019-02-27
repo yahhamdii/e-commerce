@@ -1,22 +1,32 @@
 import gql from 'graphql-tag';
 
-const GET_CART = gql`
-  query GetCart{
-    cart @client {
-      items {
-        product {
-          id
-          name
-          image
-          quantity
-          price
-        }
-        quantity
+const GET_CARTS = gql`
+  query {
+    cartes{
+    quantity
+    totalprice
+      produit {
+      id
+      name
+      description
+      image{
+        id
+        url
       }
-      totalQuantity,
-      totalPrice,
+      category{
+        id
+        libelle
+      }
+      tarif{
+        prixht
+        prixpvc
+      }
+      stock{
+        stockuc
+      }
     }
-}
+    }
+  }
 `;
 
-export default GET_CART;
+export default GET_CARTS;
