@@ -46,7 +46,7 @@ type Photo {
 type Carte {
   id: ID! @unique
   produit: Product!
-  commande: Order
+  commande: String!
   unitprice: Int
   totalprice: Int
   quantity: Int
