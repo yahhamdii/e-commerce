@@ -5,11 +5,10 @@ import {
 } from '@material-ui/core';
 import styles from './CartStyle';
 import DELETE_ITEM from '../../../graphql/Client/mutations/cart/deleteItem';
-import ADD_ONE_ITEM from '../../../graphql/Client/mutations/cart/addItem';
 import UPDATE_CARTE from '../../../graphql/Client/mutations/cart/updateCarte';
+import GET_CART from '../../../graphql/Client/queries/cart/getCart';
 
-const CartItem = ({ classes, item }) => console.log('vvvvvvvv', item) || (
- 
+const CartItem = ({ classes, item }) => (
   <ListItem key={item.produit.id}>
     <Grid container spacing={24} className={classes.item}>
       <Grid item xs={3}>
@@ -22,17 +21,22 @@ const CartItem = ({ classes, item }) => console.log('vvvvvvvv', item) || (
       </Grid>
       <Grid className={classes.info} item xs={5}>
 
-        <Mutation mutation={UPDATE_CARTE} variables={{ id: item.produit.id }}>
-          {(minusOneItem) => (
+        <Mutation mutation={UPDATE_CARTE} refetchQueries={[{ query: GET_CART, variables: { commande: localStorage.getItem('uuidorder') } }]}>
+          {(updateCarte) => (
             <Button
               onClick={(e) => {
                 e.preventDefault();
-                minusOneItem();
+                updateCarte({
+                  variables: {
+                    data: {
+                      quantity: item.quantity - 1,
+                    },
+                    id: item.id,
+                  },
+                });
               }}
               className={classes.cartBtn}
-            >
-            -
-            </Button>
+            > - </Button>
           )}
         </Mutation>
 
@@ -44,17 +48,22 @@ const CartItem = ({ classes, item }) => console.log('vvvvvvvv', item) || (
           />
         </div>
 
-        <Mutation mutation={ADD_ONE_ITEM} variables={{ data: item.produit }}>
-          {(addOneItem) => (
+        <Mutation mutation={UPDATE_CARTE} refetchQueries={[{ query: GET_CART, variables: { commande: localStorage.getItem('uuidorder') } }]}>
+          {(updateCarte) => (
             <Button
               onClick={(e) => {
                 e.preventDefault();
-                addOneItem();
+                updateCarte({
+                  variables: {
+                    data: {
+                      quantity: item.quantity + 1,
+                    },
+                    id: item.id,
+                  },
+                });
               }}
               className={classes.cartBtn}
-            >
-            +
-            </Button>
+            >+ </Button>
           )}
         </Mutation>
 
@@ -67,16 +76,15 @@ const CartItem = ({ classes, item }) => console.log('vvvvvvvv', item) || (
       </Grid>
       <Grid item xs={1}>
 
-        <Mutation mutation={DELETE_ITEM} variables={{ data: item }}>
-          { (deleteItem) => (
+        <Mutation mutation={DELETE_ITEM} variables={{ id: item.id }} refetchQueries={[{ query: GET_CART, variables: { commande: localStorage.getItem('uuidorder') } }]}>
+          { (deleteCarte) => (
             <Button
               className={classes.cartBtn}
               onClick={(e) => {
                 e.preventDefault();
-                deleteItem();
+                deleteCarte();
               }}
-            > X
-            </Button>
+            > X </Button>
           )}
         </Mutation>
 

@@ -1,8 +1,9 @@
 import gql from 'graphql-tag';
 
 const GET_CARTS = gql`
-  query {
-    cartes{
+  query($commande: String) {
+    cartes(where: { commande: $commande }){
+    id
     quantity
     totalprice
       produit {

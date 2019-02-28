@@ -31,8 +31,6 @@ const Navbar = ({ classes, networkStatus: { networkStatus } }) => (
         <Link component={RouterLink} style={{ textDecoration: 'none' }} color="inherit" variant="h1" to="/">
           <Typography className={classes.title} variant="h6" color="inherit" noWrap>
             <Mouse />
-            {' '}
-            {' '}
             {networkStatus.role === 'admin' && <small>Admin</small>}
           </Typography>
         </Link>
@@ -43,7 +41,7 @@ const Navbar = ({ classes, networkStatus: { networkStatus } }) => (
             </>
           )}
         </div>
-        <Query query={GET_CART}>
+        <Query query={GET_CART} variables={{ commande: localStorage.getItem('uuidorder') }}>
           {
             ({ data: { cartes } }) => (
               <Mutation mutation={CHANGE_CART_STATUS} variables={{ open: false }}>
@@ -56,10 +54,8 @@ const Navbar = ({ classes, networkStatus: { networkStatus } }) => (
                         changeCartStatus();
                       }}
                     >
-                      <Badge badgeContent={cartes.quantity} color="secondary">
-                        <i className="material-icons">
-                              shopping_cart
-                        </i>
+                      <Badge badgeContent={cartes.length} color="secondary">
+                        <i className="material-icons"> shopping_cart</i>
                       </Badge>
                     </IconButton>
                   )

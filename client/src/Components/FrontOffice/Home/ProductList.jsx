@@ -5,9 +5,10 @@ import {
   withStyles, Card, CardActionArea, CardActions,
   CardContent, CardMedia, Button, Typography, Tooltip,
 } from '@material-ui/core';
+import uuidv1 from 'uuid';
 import styles from './HomeStyle';
 import ADD_ONE_ITEM from '../../../graphql/Client/mutations/cart/addItem';
-
+import GET_CART from '../../../graphql/Client/queries/cart/getCart';
 
 const ProductList = ({ classes, product }) => (
   <Card className={classes.card}>
@@ -17,8 +18,13 @@ const ProductList = ({ classes, product }) => (
         image={product.image[0].url}
         title={product.name}
       >
+        {
+          !localStorage.getItem('uuidorder') && (
+            localStorage.setItem('uuidorder', uuidv1())
+          )
+        }
         <Tooltip title="Ajouter au panier" placement="top-end">
-          <Mutation mutation={ADD_ONE_ITEM}>
+          <Mutation mutation={ADD_ONE_ITEM} refetchQueries={[{ query: GET_CART, variables: { commande: localStorage.getItem('uuidorder') } }]}>
             {(createCarte) => (
               <Button
                 size="small"
@@ -33,6 +39,7 @@ const ProductList = ({ classes, product }) => (
                         totalprice: product.tarif[0].prixpvc,
                         quantity: 1,
                         produit: { connect: { id: product.id } },
+                        commande: localStorage.getItem('uuidorder'),
                       },
                     },
                   });
